@@ -1,0 +1,52 @@
+<%- include('partials/header.ejs') %>
+
+<div class="container px-3 py-5">
+<% if(locals.error) { %>
+    <%= error %>
+<% } else {%>
+    <h4>Total books: <%= totalBookNumber %></h4>
+    <select id="select-sorting" class="form-select mb-3" style="max-width: 140px;" aria-label="Default select example">
+        <option selected>Sort by:</option>
+        <option value="id">Recency</option>
+        <option value="rating">Rating</option>
+    </select>
+    <% if(totalBookNumber === 0) { %>
+        <h2 class=" text-center text-body-secondary">There's no book added</h2>
+    <% }else{ %>
+        <div class="row">
+            <% allUserBooks.forEach(book => { %>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="https://covers.openlibrary.org/b/id/<%= book['cover_id'] %>-M.jpg"  class="img-fluid rounded-start" alt="<%= book['title'] %>'s cover">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="/details/<%= book.id %>" style="text-decoration: none; color: black;"><%= book['title'] %></a></h5>
+                                    <p class="card-text text-truncate"><%= book['review'] %></p>
+                                    <p class="card-text">Rating: <%= "⭐".repeat(book['rating']) %></p>
+                                    <p class="card-text"><small class="text-body-secondary">Date read: <%= book['date_read'].toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></small></p>
+                                    <a class="btn btn-sm btn-outline-primary me-1 mb-1" href="/add-note/<%= book.id %>">Add note</a>
+                                    <a class="btn btn-sm btn-outline-success me-1 mb-1" href="/edit/<%= book.id %>">Edit</a>
+                                    <button class="btn btn-sm btn-outline-danger me-1 mb-1 delete-btn" data-title="<%= book.title %>" data-bs-toggle="modal" data-bookid="<%= book.id %>" data-bs-target="#deleteModal" >Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+<% } %>
+</div>
+
+
+
+
+<%- include('partials/delete_modal.ejs') %>
+
+<script src="js/delete_modal.js"></script>
+<script src="js/sorting.js"></script>
+
+<%- include('partials/footer.ejs') %>

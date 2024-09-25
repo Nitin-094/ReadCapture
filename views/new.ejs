@@ -1,0 +1,31 @@
+<%- include('partials/header.ejs') %>
+
+<div class="container px-3 py-5">
+    <h1>New Book</h1>
+    <form action="/new/add" method="post">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="title" placeholder="The Maze Runner" required>
+            <label>Title</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" name="dateRead" required>
+            <label>Date when you first read the book</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea name="review" class="form-control" placeholder="Leave a review here" id="floatingTextarea2" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Review</label>
+        </div>
+        <div class="rating-card mb-3">
+            <h5>Rating</h5>
+            <% for(let i=1; i<=5;i++){ %>
+                <span onclick="gfg(<%= i %>)" class="star">★</span>
+            <% } %>
+            <input type="number" name="rating" value="" id="rating-input" hidden required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script src="js/star_rating.js"></script>
+
+<%- include('partials/footer.ejs') %>

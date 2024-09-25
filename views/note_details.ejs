@@ -1,0 +1,67 @@
+<%- include('partials/header.ejs') %>
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="coverPic">
+            <img src="https://covers.openlibrary.org/b/id/<%= book['cover_id'] %>-M.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3"><%= book['title'] %></h1>
+            <p class="lead"><%= book['review'] %></p>
+            <p class="display-6">Rating: <%= "⭐".repeat(book['rating']) %></p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a class="btn btn-primary btn-lg px-4 me-md-2" href="/add-note/<%= book.id %>">Add note</a>
+                <a class="btn btn-success btn-lg px-4" href="/edit/<%= book.id %>">Edit</a>
+                <button class="btn btn-danger btn-lg px-4 delete-btn" data-title="<%= book.title %>" data-bs-toggle="modal" data-bookid="<%= book.id %>" data-bs-target="#deleteModal" >Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-body-tertiary">
+    <div class="container px-3 py-5">
+        <% if(locals.notes.length == 0) { %>
+            <h2 class="text-center text-body-secondary">There's no note in this book</h2>
+        <% } else { %>
+            <div class="row">
+                <% notes.forEach(note => { %>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card mb-3" style="width: 20rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Page <%= note.page_num %></h5>
+                                <p class="card-text"><%= note.note  %></p>
+                                <a href="/edit-note/<%= note.id %>" class="btn btn-sm btn-outline-success">Edit</a>
+                                <button class="btn btn-sm btn-outline-danger delete-note-btn" data-bs-toggle="modal" data-noteid="<%= note.id %>" data-bs-target="#deleteNoteModal" >Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+</div>
+<%- include('partials/delete_modal.ejs') %>
+
+<div class="modal fade" id="deleteNoteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Note</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form method="post">
+              <input id="modal-delete-note-btn" type="submit" class="btn btn-danger" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script src="js/delete_modal.js"></script>
+
+<%- include('partials/footer.ejs') %>

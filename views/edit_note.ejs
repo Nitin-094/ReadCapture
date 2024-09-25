@@ -1,0 +1,19 @@
+<%- include('partials/header.ejs') %>
+
+
+<div class="container px-3 py-5">
+    <h1>New Book</h1>
+    <form action="/edit-note/<%= noteData.id %>" method="post">
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" name="pageNumber" placeholder="3" value="<%= noteData.page_num %>" required>
+            <label>Page Number</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea name="note" class="form-control" placeholder="Leave a note here" style="height: 100px"><%= noteData.note %></textarea>
+            <label for="floatingTextarea2">Note</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<%- include('partials/footer.ejs') %>
